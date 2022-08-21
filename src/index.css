@@ -49,3 +49,32 @@
       transform: translatey(-50%);
   }
 }
+a,a:hover{
+  text-decoration: none;
+  color: inherit;
+}
+
+textarea
+{
+  height: 125px;
+}
+
+::-webkit-scrollbar,textarea::-webkit-scrollbar
+{
+  width:10px;
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb,textarea::-webkit-scrollbar-thumb {
+  background: #f1356d;
+  border-radius: 10px;
+  
+}
+.form-label
+{
+  color:#6c757d;
+}
+.form-control:focus,.form-select:focus
+{
+  border-color: #f1356d4f;
+  box-shadow: 0 0 0 0.25rem  #f1356d4f;
+}
