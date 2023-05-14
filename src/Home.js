@@ -2,7 +2,7 @@ import BlogList from './BlogList';
 import useFetch from './useFetch';
 import Loading from './Loading';
 const Home = () => {
-    const [blogs, errorMessage] = useFetch("http://localhost:3000/blogs");
+    const [blogs, errorMessage] = useFetch("http://localhost:8000/blogs");
     //console.log(1);
     return (
         <div className="fluid">

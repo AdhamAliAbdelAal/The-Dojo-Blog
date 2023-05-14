@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Loading from "./Loading";
 import {useNavigate} from 'react-router-dom';
+import useHttp from "./Hooks/useHttp";
+import axios from "./Services/AxiosInstance";
 const Create = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('');
-    const [isPending, setIsPending] = useState(false);
+    const [isPending,error,makeRequest]=useHttp();
     const navigate=useNavigate();
     console.log({ author: author, title: title, body: body });
     if (isPending)
@@ -18,17 +20,18 @@ const Create = () => {
             <form onSubmit={
                 (e) => {
                     e.preventDefault();
-                    setIsPending(true);
-                    setTimeout(() => {
-                        fetch("http://localhost:3000/blogs", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ body: body, author: author, title: title })
-                        }).then(() => {
-                            setIsPending(false);
-                            navigate('/');
-                        })
-                    }, 1000)
+                    const requestConfig={
+                        method:"POST",
+                        url:"/blogs",
+                        data:
+                            { body, author,title }
+                    }
+                    const applyData=()=>{
+                        navigate('/');
+                    }
+                    setTimeout(()=>{
+                        makeRequest(axios,requestConfig,applyData);
+                    },1000)
                 }
             } >
                 <div className="mb-4">

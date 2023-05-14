@@ -1,10 +1,25 @@
 import { useParams } from "react-router-dom";
-import useFetch from "./useFetch";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
+import useHttp from "./Hooks/useHttp";
+import { useEffect, useState } from "react";
+import axios from "./Services/AxiosInstance";
 const Blog = () => {
     const { id } = useParams();
-    const [blog, errorMessage] = useFetch(`http://localhost:3000/blogs/${id}`);
+    const [errorMessage,isLoading,makeRequest]=useHttp();
+    const [blog,setBlog]=useState(null);
+
+    useEffect(()=>{
+        const requestConfig={
+            method:"GET",
+            url:`/blogs/${id}`
+
+        }
+        makeRequest(axios,requestConfig,setBlog);
+        console.log("adham");
+    },[]);
+    console.log(blog);
+
     const navigate=useNavigate();
     console.log(blog);
     return (
@@ -19,13 +34,11 @@ const Blog = () => {
                         {
                             if(window.confirm("you will not be able to restore the blog again!"))
                             {
-                                fetch(`http://localhost:3000/blogs/${id}`,{
-                                    method:"DELETE"  
-                                }).then(
-                                    ()=>{
-                                        navigate('/');
-                                    }
-                                )
+                                const requestConfig={
+                                    method:"DELETE",
+                                    url:`/blogs/${id}`
+                                }
+                                makeRequest(axios,requestConfig,()=>{navigate('/')});
                             }
                         }
                     } className="mt-4 d-flex justify-content-center">
